@@ -9,7 +9,9 @@
             <TextView android:id="@+id/locationBadge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📍 Detecting" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary_dark" android:background="@color/primary_container" android:paddingLeft="12dp" android:paddingRight="12dp" android:paddingTop="8dp" android:paddingBottom="8dp" />
         </LinearLayout>
 
-        <TextView android:id="@+id/locationStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your region helps us show relevant privacy and removal routes." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="7dp" android:layout_marginBottom="15dp" />
+        <TextView android:id="@+id/locationStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your region helps us show relevant privacy and removal routes." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="7dp" android:layout_marginBottom="12dp" />
+
+        <com.rath0darya.deleteme.LocationPermissionCard android:id="@+id/locationPermissionCard" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="15dp" />
 
         <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="26dp" app:cardElevation="2dp" app:strokeWidth="1dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@android:color/white">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
