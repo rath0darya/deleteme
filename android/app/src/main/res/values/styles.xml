@@ -12,7 +12,6 @@
         <item name="colorPrimaryContainer">@color/primary_container</item>
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorSecondaryContainer">@color/secondary_container</item>
-        <item name="android:fontFamily">sans</item>
     </style>
     <style name="TextAppearance.DeleteMe.Toolbar" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textStyle">bold</item>
