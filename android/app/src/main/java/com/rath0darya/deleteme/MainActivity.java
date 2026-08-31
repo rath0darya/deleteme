@@ -1,17 +1,22 @@
 package com.rath0darya.deleteme;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import org.json.*;
@@ -30,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private static final String XON = "https://api.xposedornot.com/v1/check-email/";
     private static final String BROKERS = "https://raw.githubusercontent.com/Persprotect/data-broker-opt-out-list/main/data-brokers.json";
+    private static final String PREFS = "deleteme_prefs";
+    private static final String NETWORK_NOTICE_SHOWN = "network_notice_shown";
 
     private static final String[][] INDIA_SOURCES = {
         {"Truecaller", "Caller ID / phone directory", "https://www.truecaller.com/unlisting", "Unlist a searchable phone number"},
@@ -43,8 +50,24 @@ public class MainActivity extends AppCompatActivity {
 
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state);
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        getWindow().setNavigationBarColor(Color.TRANSPARENT);
+        WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView())
+                .setAppearanceLightStatusBars(true);
+        WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView())
+                .setAppearanceLightNavigationBars(true);
+
         setContentView(R.layout.activity_main);
+        View root = findViewById(R.id.rootLayout);
+        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+            v.setPadding(v.getPaddingLeft(), bars.top, v.getPaddingRight(), bars.bottom);
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(root);
+
         MaterialToolbar bar = findViewById(R.id.topAppBar);
         bar.setTitle("DeleteMe");
         container = findViewById(R.id.screenContainer);
@@ -56,6 +79,19 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
         nav.setSelectedItemId(R.id.nav_scan);
+        showNetworkNoticeOnce();
+    }
+
+    private void showNetworkNoticeOnce() {
+        SharedPreferences prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
+        if (prefs.getBoolean(NETWORK_NOTICE_SHOWN, false)) return;
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Network access")
+                .setMessage("DeleteMe needs Internet access to check breach intelligence and load official removal routes. It also reads network and Wi-Fi state to determine connectivity.\n\nAndroid treats INTERNET, ACCESS_NETWORK_STATE and ACCESS_WIFI_STATE as install-time normal permissions, so the system does not show a dangerous-permission runtime popup for them.")
+                .setNegativeButton("Not now", (dialog, which) -> prefs.edit().putBoolean(NETWORK_NOTICE_SHOWN, true).apply())
+                .setPositiveButton("Continue", (dialog, which) -> prefs.edit().putBoolean(NETWORK_NOTICE_SHOWN, true).apply())
+                .setOnDismissListener(dialog -> prefs.edit().putBoolean(NETWORK_NOTICE_SHOWN, true).apply())
+                .show();
     }
 
     private void showScan() {
