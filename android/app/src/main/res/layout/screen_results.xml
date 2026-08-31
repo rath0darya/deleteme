@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+    <LinearLayout android:id="@+id/resultsContent" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SCAN RESULTS" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary" android:letterSpacing="0.08" />
+        <TextView android:id="@+id/resultsTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No scan yet" android:textSize="28sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="8dp" />
+        <TextView android:id="@+id/resultsSubtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Run a scan to see confirmed exposure." android:textSize="15sp" android:textColor="@color/text_secondary" android:layout_marginTop="6dp" android:layout_marginBottom="16dp" />
+        <com.google.android.material.card.MaterialCardView android:id="@+id/emptyCard" android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/surface">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:padding="28dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="✓" android:textSize="32sp" android:textColor="@color/primary" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Nothing checked yet" android:textSize="18sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="8dp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Use Scan to check your email against the connected free breach source." android:textSize="14sp" android:textColor="@color/text_secondary" android:gravity="center" android:layout_marginTop="5dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>
