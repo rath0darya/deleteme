@@ -1,18 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SETTINGS" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary" android:letterSpacing="0.08" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Privacy &amp; app settings" android:textSize="28sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="8dp" android:layout_marginBottom="16dp" />
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/outline">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No account required" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/text_primary" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="DeleteMe does not require a profile or password. Your scan is performed from the app." android:textSize="14sp" android:textColor="@color/text_secondary" android:layout_marginTop="6dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="App settings" android:textSize="30sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="8dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Control how DeleteMe searches, handles location and keeps your local app state." android:textSize="14sp" android:textColor="@color/text_secondary" android:layout_marginTop="5dp" android:layout_marginBottom="18dp" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SEARCH" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/primary" android:layout_marginBottom="7dp" />
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@android:color/white" app:strokeWidth="1dp" app:strokeColor="@color/outline">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="17dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Regional search" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/text_primary" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Use your region to prioritize relevant removal sources." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="3dp" />
+                    </LinearLayout>
+                    <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/settingRegionalSearch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" />
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/surface">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Open source" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/text_primary" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="The Android project and build workflow are published in the DeleteMe repository." android:textSize="14sp" android:textColor="@color/text_secondary" android:layout_marginTop="6dp" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LOCATION" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/primary" android:layout_marginTop="20dp" android:layout_marginBottom="7dp" />
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@android:color/white" app:strokeWidth="1dp" app:strokeColor="@color/outline">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="17dp">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Precise location" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/text_primary" />
+                <TextView android:id="@+id/settingLocationStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Location permission is used only for regional source selection." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="4dp" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/settingLocationButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="Allow precise location" android:textAllCaps="false" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PRIVACY" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/primary" android:layout_marginTop="20dp" android:layout_marginBottom="7dp" />
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@android:color/white" app:strokeWidth="1dp" app:strokeColor="@color/outline">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="17dp">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No account required" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/text_primary" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="DeleteMe does not require a profile or password. Searches are initiated by you." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="4dp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Location is not used for identity matching. It only helps select regional removal sources." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="10dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ABOUT" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/primary" android:layout_marginTop="20dp" android:layout_marginBottom="7dp" />
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="25dp" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@android:color/white" app:strokeWidth="1dp" app:strokeColor="@color/outline">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="17dp">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="DeleteMe" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/text_primary" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Privacy and removal assistant" android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="3dp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Version 2.0" android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="8dp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Open-source Android project with an automated build pipeline." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="3dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
