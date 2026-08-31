@@ -11,7 +11,7 @@
         android:padding="20dp">
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SETTINGS" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary" android:letterSpacing="0.08" />
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="App settings" android:textSize="30sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="8dp" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Control how DeleteMe searches, handles location and keeps your local app state." android:textSize="14sp" android:textColor="@color/text_secondary" android:layout_marginTop="5dp" android:layout_marginBottom="18dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Control regional search, location access and privacy behaviour." android:textSize="14sp" android:textColor="@color/text_secondary" android:layout_marginTop="5dp" android:layout_marginBottom="18dp" />
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SEARCH" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/primary" android:layout_marginBottom="7dp" />
         <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@android:color/white" app:strokeWidth="1dp" app:strokeColor="@color/outline">
@@ -49,8 +49,8 @@
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="17dp">
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="DeleteMe" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/text_primary" />
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Privacy and removal assistant" android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="3dp" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Version 2.0" android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="8dp" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Open-source Android project with an automated build pipeline." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="3dp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Version 2.1" android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="8dp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Native Android application with a reproducible GitHub Actions build pipeline." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="3dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
