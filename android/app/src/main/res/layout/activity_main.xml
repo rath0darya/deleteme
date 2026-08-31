@@ -34,7 +34,6 @@
         android:elevation="8dp"
         app:itemIconTint="@color/primary"
         app:itemTextColor="@color/text_primary"
-        app:itemActiveIndicatorStyle="@style/Widget.DeleteMe.BottomNavActiveIndicator"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled" />
 </LinearLayout>
