@@ -1,1 +1,0 @@
-Build trigger for permanent APK publication.
