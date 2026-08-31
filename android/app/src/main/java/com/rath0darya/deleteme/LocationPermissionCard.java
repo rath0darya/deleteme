@@ -19,10 +19,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
 /**
- * In-app explanation and action surface shown before DeleteMe asks for location.
- * Only foreground location is requested. Approximate location is sufficient for
- * regional source selection, so the app continues to work when the user grants
- * coarse location only.
+ * DeleteMe foreground-location permission surface.
+ * Precise location is requested because regional source selection is a core
+ * part of the current search workflow. Android 12+ requires fine and coarse
+ * to be requested together, so the system can let the user choose Precise.
  */
 public class LocationPermissionCard extends MaterialCardView {
     private static final int REQUEST_LOCATION = 8127;
@@ -49,32 +49,38 @@ public class LocationPermissionCard extends MaterialCardView {
         eyebrow.setLetterSpacing(0.08f);
         root.addView(eyebrow, lp(0, 0, 0, 5));
 
-        title = text("Use your region to find relevant removal routes", 18, Color.rgb(25, 22, 30), true);
+        title = text("Use precise location for regional search", 18, Color.rgb(25, 22, 30), true);
         root.addView(title, lp(0, 0, 0, 5));
 
-        message = text("DeleteMe uses your approximate location only to select regional privacy and removal sources. It is not used as proof of identity.", 13, Color.rgb(100, 96, 110), false);
+        message = text("DeleteMe uses your precise foreground location only while you use the app to select the correct regional privacy and removal sources. It is not used as proof of identity and is not requested in the background.", 13, Color.rgb(100, 96, 110), false);
         root.addView(message, lp(0, 0, 0, 12));
 
-        LinearLayout row = new LinearLayout(context);
-        row.setGravity(Gravity.CENTER_VERTICAL);
-
         action = new MaterialButton(context);
-        action.setText("Allow location");
+        action.setText("Use precise location");
         action.setTextAllCaps(false);
         action.setTextSize(14);
-        action.setMinHeight(dp(46));
+        action.setMinHeight(dp(48));
         action.setPadding(dp(18), 0, dp(18), 0);
         action.setOnClickListener(v -> requestLocation());
-        row.addView(action, new LinearLayout.LayoutParams(0, dp(48), 1f));
+        root.addView(action, lp(0, 0, 0, 0));
 
-        root.addView(row, lp(0, 0, 0, 0));
         addView(root, new LayoutParams(-1, -2));
         refresh();
     }
 
     private void requestLocation() {
-        if (hasLocation()) {
+        if (hasFineLocation()) {
             refresh();
+            return;
+        }
+
+        if (hasCoarseOnly()) {
+            new androidx.appcompat.app.AlertDialog.Builder(activity)
+                    .setTitle("Precise location is needed")
+                    .setMessage("DeleteMe uses your precise location to select the correct regional search and removal sources. Android currently gives DeleteMe approximate location only. Choose Precise location in the next system dialog.")
+                    .setNegativeButton("Use approximate", (d, w) -> refresh())
+                    .setPositiveButton("Continue", (d, w) -> askSystemPermission())
+                    .show();
             return;
         }
 
@@ -83,8 +89,8 @@ public class LocationPermissionCard extends MaterialCardView {
 
         if (rationale) {
             new androidx.appcompat.app.AlertDialog.Builder(activity)
-                    .setTitle("Why does DeleteMe need location?")
-                    .setMessage("Your region helps DeleteMe show the right data-broker and privacy-removal routes. Approximate location is enough. Location is used while the app is in use and is not required for the actual identifier search.")
+                    .setTitle("Why does DeleteMe need precise location?")
+                    .setMessage("Your region determines which privacy and data-removal sources are relevant. DeleteMe requests foreground precise location only while you use the search. It does not request background location.")
                     .setNegativeButton("Not now", null)
                     .setPositiveButton("Continue", (d, w) -> askSystemPermission())
                     .show();
@@ -95,7 +101,7 @@ public class LocationPermissionCard extends MaterialCardView {
 
     private void askSystemPermission() {
         ActivityCompat.requestPermissions(activity,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                 REQUEST_LOCATION);
         action.setText("Waiting for permission…");
         action.setEnabled(false);
@@ -104,36 +110,52 @@ public class LocationPermissionCard extends MaterialCardView {
     }
 
     public void refresh() {
-        if (hasLocation()) {
+        if (hasFineLocation()) {
             setCardBackgroundColor(Color.rgb(232, 250, 242));
             setStrokeColor(Color.rgb(166, 220, 199));
-            title.setText("Regional location is enabled ✓");
-            message.setText("DeleteMe can use your approximate region to prioritize relevant removal sources. You can change this permission in Android Settings at any time.");
+            title.setText("Precise location is enabled ✓");
+            message.setText("DeleteMe can use your precise foreground location to select regional removal sources. Location is only used while the app is in use. You can change this permission in Android Settings at any time.");
             action.setText("Location enabled");
             action.setEnabled(false);
-        } else {
-            setCardBackgroundColor(Color.rgb(245, 240, 255));
-            setStrokeColor(Color.rgb(205, 197, 235));
-            title.setText("Use your region to find relevant removal routes");
-            message.setText("DeleteMe uses your approximate location only to select regional privacy and removal sources. It is not used as proof of identity.");
+            return;
+        }
+
+        if (hasCoarseOnly()) {
+            setCardBackgroundColor(Color.rgb(255, 244, 222));
+            setStrokeColor(Color.rgb(231, 194, 122));
+            title.setText("Approximate location is enabled");
+            message.setText("DeleteMe has approximate location, but this search is configured to use precise location for regional source selection. Upgrade the permission to Precise when you want region-aware results.");
+            action.setText("Enable precise location");
             action.setEnabled(true);
-            if (isPermanentlyDenied()) {
-                action.setText("Open location settings");
-                action.setOnClickListener(v -> openSettings());
-            } else {
-                action.setText("Allow location");
-                action.setOnClickListener(v -> requestLocation());
-            }
+            action.setOnClickListener(v -> requestLocation());
+            return;
+        }
+
+        setCardBackgroundColor(Color.rgb(245, 240, 255));
+        setStrokeColor(Color.rgb(205, 197, 235));
+        title.setText("Use precise location for regional search");
+        message.setText("DeleteMe uses your precise foreground location only while you use the app to select the correct regional privacy and removal sources. It is not used as proof of identity and is not requested in the background.");
+        action.setEnabled(true);
+        if (isPermanentlyDenied()) {
+            action.setText("Open location settings");
+            action.setOnClickListener(v -> openSettings());
+        } else {
+            action.setText("Use precise location");
+            action.setOnClickListener(v -> requestLocation());
         }
     }
 
-    private boolean hasLocation() {
+    private boolean hasFineLocation() {
+        return ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean hasCoarseOnly() {
         return ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                && !hasFineLocation();
     }
 
     private boolean isPermanentlyDenied() {
-        return !hasLocation()
+        return !hasCoarseOnly() && !hasFineLocation()
                 && !ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_COARSE_LOCATION)
                 && !ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION);
     }
