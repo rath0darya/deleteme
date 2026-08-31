@@ -1,39 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootLayout"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
+    <LinearLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/background">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@android:color/white"
+            android:elevation="1dp"
+            app:navigationIcon="@android:drawable/ic_menu_sort_by_size"
+            app:title="DeleteMe"
+            app:titleTextAppearance="@style/TextAppearance.DeleteMe.Toolbar"
+            app:titleCentered="false" />
+
+        <FrameLayout
+            android:id="@+id/screenContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/background" />
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/sideNavigation"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
         android:background="@android:color/white"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:elevation="1dp"
-        app:title="DeleteMe"
-        app:titleTextAppearance="@style/TextAppearance.DeleteMe.Toolbar"
-        app:titleCentered="false" />
-
-    <FrameLayout
-        android:id="@+id/screenContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/background" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:background="@color/surface"
-        android:elevation="8dp"
+        android:elevation="16dp"
+        app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/primary"
         app:itemTextColor="@color/text_primary"
-        app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled" />
-</LinearLayout>
+        app:menu="@menu/side_nav_menu" />
+</androidx.drawerlayout.widget.DrawerLayout>
