@@ -6,7 +6,10 @@
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PRIVACY WORKSPACE" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/primary" android:letterSpacing="0.10" />
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Protect your digital footprint" android:textSize="28sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="5dp" />
             </LinearLayout>
-            <TextView android:id="@+id/locationBadge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📍 Detecting" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary_dark" android:background="@color/primary_container" android:paddingLeft="12dp" android:paddingRight="12dp" android:paddingTop="8dp" android:paddingBottom="8dp" />
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal" android:background="@color/primary_container" android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingTop="7dp" android:paddingBottom="7dp">
+                <ImageView android:layout_width="18dp" android:layout_height="18dp" android:src="@android:drawable/ic_menu_mylocation" android:tint="@color/primary_dark" android:contentDescription="Location" />
+                <TextView android:id="@+id/locationBadge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="5dp" android:text="Detecting" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary_dark" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView android:id="@+id/locationStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your region helps us show relevant privacy and removal routes." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="7dp" android:layout_marginBottom="12dp" />
@@ -35,16 +38,16 @@
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="14dp">
             <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/primary_container">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="15dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="✓" android:textSize="20sp" android:textColor="@color/primary" android:textStyle="bold" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Verified sources" android:textSize="12sp" android:textColor="@color/text_primary" android:textStyle="bold" android:layout_marginTop="3dp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:padding="15dp">
+                    <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@android:drawable/ic_menu_info_details" android:tint="@color/primary" android:contentDescription="Verified sources" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Verified sources" android:textSize="12sp" android:textColor="@color/text_primary" android:textStyle="bold" android:layout_marginStart="8dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
             <Space android:layout_width="10dp" android:layout_height="1dp" />
             <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/india_container">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="15dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🌐" android:textSize="20sp" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Regional routes" android:textSize="12sp" android:textColor="@color/text_primary" android:textStyle="bold" android:layout_marginTop="3dp" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:padding="15dp">
+                    <ImageView android:layout_width="22dp" android:layout_height="22dp" android:src="@android:drawable/ic_menu_mapmode" android:tint="@color/primary" android:contentDescription="Regional routes" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Regional routes" android:textSize="12sp" android:textColor="@color/text_primary" android:textStyle="bold" android:layout_marginStart="8dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
