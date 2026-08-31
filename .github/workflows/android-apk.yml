@@ -12,6 +12,10 @@ permissions:
   contents: write
   actions: write
 
+concurrency:
+  group: deleteme-android-build
+  cancel-in-progress: true
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
@@ -33,9 +37,18 @@ jobs:
         with:
           gradle-version: '9.4.1'
 
+      - name: Validate Android project
+        working-directory: android
+        run: gradle :app:check --no-daemon
+
       - name: Build latest debug APK
         working-directory: android
         run: gradle :app:assembleDebug --no-daemon
+
+      - name: Verify APK output
+        run: |
+          test -s android/app/build/outputs/apk/debug/app-debug.apk
+          echo "APK size: $(du -h android/app/build/outputs/apk/debug/app-debug.apk | cut -f1)"
 
       - name: Replace permanent APK in repository
         run: |
