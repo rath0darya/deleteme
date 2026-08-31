@@ -2,6 +2,7 @@
 <resources>
     <color name="primary">#146B45</color>
     <color name="primary_dark">#0E4D32</color>
+    <color name="danger">#B92D2D</color>
     <color name="text_primary">#17181A</color>
     <color name="text_secondary">#6B6E73</color>
     <color name="surface">#F5F6F7</color>
