@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Privacy check" android:textSize="13sp" android:textStyle="bold" android:textColor="@color/primary" android:letterSpacing="0.08" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PRIVACY CHECK" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary" android:letterSpacing="0.10" />
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Find where your data is exposed" android:textSize="30sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="8dp" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Start with one identifier. We check the free breach source and show official removal routes separately." android:textSize="15sp" android:textColor="@color/text_secondary" android:layout_marginTop="8dp" android:layout_marginBottom="20dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Check a single identifier, then review confirmed exposure and removal options separately." android:textSize="15sp" android:textColor="@color/text_secondary" android:layout_marginTop="8dp" android:layout_marginBottom="18dp" />
 
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:strokeWidth="1dp" app:strokeColor="@color/outline">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="YOUR INFORMATION" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/text_secondary" />
-                <com.google.android.material.textfield.TextInputLayout android:id="@+id/identifierLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" style="@style/Widget.DeleteMe.TextInputLayout">
-                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/identifierInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Email address" android:inputType="textEmailAddress" android:singleLine="true" />
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="22dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@android:color/white">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="YOUR INFORMATION" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary" android:letterSpacing="0.08" />
+                <com.google.android.material.textfield.TextInputLayout android:id="@+id/identifierLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" style="@style/Widget.DeleteMe.TextInputLayout" app:boxStrokeColor="@color/primary">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/identifierInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Email address" android:inputType="textEmailAddress" android:singleLine="true" android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.button.MaterialButton android:id="@+id/findButton" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="12dp" android:text="Find my data" android:textAllCaps="false" android:textSize="16sp" style="@style/Widget.DeleteMe.PrimaryButton" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/findButton" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="12dp" android:text="Find my data  →" android:textAllCaps="false" android:textSize="16sp" style="@style/Widget.DeleteMe.PrimaryButton" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your identifier is only sent to the connected breach service when you press the button." android:textSize="11sp" android:textColor="@color/text_secondary" android:layout_marginTop="10dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" app:cardCornerRadius="16dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/surface">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="How it works" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/text_primary" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="① Check public breach intelligence\n② Show confirmed matches\n③ Give you the official removal route" android:textSize="14sp" android:textColor="@color/text_secondary" android:lineSpacingExtra="4dp" android:layout_marginTop="6dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="14dp">
+            <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" app:cardCornerRadius="16dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/primary_container">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="✓  FREE BREACH CHECK" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary_dark" android:padding="15dp" />
+            </com.google.android.material.card.MaterialCardView>
+            <Space android:layout_width="10dp" android:layout_height="1dp" />
+            <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" app:cardCornerRadius="16dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/india_container">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🇮🇳  INDIA COVERAGE" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/india" android:padding="15dp" />
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/surface">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="17dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="How it works" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/text_primary" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="1  Check breach intelligence\n2  Show confirmed matches\n3  Browse official removal routes\n4  Open the provider's own removal page" android:textSize="14sp" android:textColor="@color/text_secondary" android:lineSpacingExtra="5dp" android:layout_marginTop="7dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
