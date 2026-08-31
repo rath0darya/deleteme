@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#146B45</color>
-    <color name="primary_dark">#0E4D32</color>
-    <color name="danger">#B92D2D</color>
-    <color name="text_primary">#17181A</color>
-    <color name="text_secondary">#6B6E73</color>
-    <color name="surface">#F5F6F7</color>
-    <color name="outline">#DDE0E3</color>
+    <color name="primary">#087F5B</color>
+    <color name="primary_dark">#056044</color>
+    <color name="primary_container">#D9F8EC</color>
+    <color name="secondary">#5B4B8A</color>
+    <color name="secondary_container">#EEE7FF</color>
+    <color name="info">#1769AA</color>
+    <color name="info_container">#E1F0FF</color>
+    <color name="warning">#A15C00</color>
+    <color name="warning_container">#FFF0D6</color>
+    <color name="danger">#C62828</color>
+    <color name="danger_container">#FFE2E2</color>
+    <color name="india">#E87500</color>
+    <color name="india_container">#FFF0E0</color>
+    <color name="text_primary">#14171A</color>
+    <color name="text_secondary">#62686D</color>
+    <color name="background">#FBFCFD</color>
+    <color name="surface">#F1F4F6</color>
+    <color name="surface_variant">#E8EDF0</color>
+    <color name="outline">#CBD2D7</color>
 </resources>
