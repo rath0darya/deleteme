@@ -1,40 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="DeleteMe - open-source personal data removal and exposure management toolkit.">
-  <title>DeleteMe — Personal Data Removal</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="DeleteMe - open-source local-first personal data removal automation.">
+<title>DeleteMe — Remove Your Data</title><link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="nav wrap"><a class="brand" href="#top">delete<span>me</span></a><nav><a href="#scan">Scan</a><a href="#sources">Sources</a><a href="#removal">Removal</a><a href="#privacy">Privacy</a></nav><a class="ghost" href="https://github.com/rath0darya/deleteme">GitHub</a></header>
+<header class="nav wrap"><a class="brand" href="#top">delete<span>me</span></a><nav><a href="#remove">Remove</a><a href="#coverage">Coverage</a><a href="#privacy">Privacy</a></nav><a class="ghost" href="https://github.com/rath0darya/deleteme">GitHub</a></header>
 <main id="top">
 <section class="hero wrap">
-  <div class="eyebrow">OPEN SOURCE · NO PAID API REQUIRED</div>
-  <h1>Remove your data<br><em>from the internet.</em></h1>
-  <p class="lead">A privacy-first toolkit for finding personal information, preparing removal requests, checking public exposure and tracking remediation. Everything runs in the browser.</p>
-  <div class="scanbox" id="scan">
-    <div class="tabs"><button class="tab active" data-type="email">Email</button><button class="tab" data-type="phone">Phone</button><button class="tab" data-type="username">Username</button><button class="tab" data-type="name">Name</button></div>
-    <div class="inputrow"><input id="identity" autocomplete="off" placeholder="Enter an email address"><button id="scanBtn">Scan exposure <span>↗</span></button></div>
-    <small>Your input is processed locally and is not sent to a DeleteMe server.</small>
-  </div>
+<div class="eyebrow">OPEN SOURCE · LOCAL-FIRST · NO PAID API</div>
+<h1>Remove your data<br><em>from data brokers.</em></h1>
+<p class="lead">One profile, one removal action. DeleteMe runs the execution engine on your own machine so your personal data is not sent to a DeleteMe server.</p>
+<div class="scanbox" id="remove">
+<div class="tabs"><button class="tab active" data-type="email">Email</button><button class="tab" data-type="phone">Phone</button><button class="tab" data-type="username">Username</button><button class="tab" data-type="name">Name</button></div>
+<div class="inputrow"><input id="identity" autocomplete="off" placeholder="Enter your email address"><button id="scanBtn">Remove my data <span>→</span></button></div>
+<small>Your identifier is sent only to the local engine at 127.0.0.1. No Google/Bing search is performed.</small>
+</div>
 </section>
-<section class="wrap section" id="results" hidden>
-  <div class="sectionhead"><div><span class="kicker">LOCAL SCAN</span><h2>Exposure workspace</h2></div><button class="ghost" id="clearBtn">Clear</button></div>
-  <div class="resultgrid" id="resultGrid"></div>
-</section>
-<section class="wrap section" id="sources"><span class="kicker">COVERAGE</span><h2>One workspace. Multiple exposure surfaces.</h2><p class="muted">The toolkit does not depend on a proprietary database. It creates source-specific searches and removal workflows that anyone can audit and extend.</p><div class="cards">
-<article><b>01</b><h3>Search engines</h3><p>Generate exact-match searches for Google, Bing and DuckDuckGo using your chosen identifier.</p></article>
-<article><b>02</b><h3>Data brokers</h3><p>Maintain an open-source directory of broker opt-out pages and walk users through each request.</p></article>
-<article><b>03</b><h3>Social platforms</h3><p>Find profile exposure by username and open platform-specific privacy or deletion controls.</p></article>
-<article><b>04</b><h3>Public documents</h3><p>Search indexed PDFs, directories, cached pages and public records for exact identity matches.</p></article>
-<article><b>05</b><h3>Developer exposure</h3><p>Search GitHub and other public code indexes for your own public identifiers and accidental disclosures.</p></article>
-<article><b>06</b><h3>Breach exposure</h3><p>Keep breach intelligence optional. Import openly licensed datasets locally instead of requiring a paid API.</p></article>
-</div></section>
-<section class="wrap section" id="removal"><span class="kicker">REMOVAL WORKFLOW</span><h2>Discover → Request → Verify</h2><div class="steps"><div><strong>1</strong><h3>Discover</h3><p>Run local checks and source-specific searches. Save only the minimum evidence needed.</p></div><div><strong>2</strong><h3>Request</h3><p>Open the official removal route and generate a ready-to-send request without handing credentials to us.</p></div><div><strong>3</strong><h3>Verify</h3><p>Re-run the search later and mark each source removed, pending, refused or reappeared.</p></div></div></section>
-<section class="wrap section privacy" id="privacy"><span class="kicker">PRIVACY MODEL</span><h2>Designed to be self-hosted by anyone.</h2><div class="privacygrid"><div><h3>No backend</h3><p>GitHub Pages serves static HTML, CSS and JavaScript. No application server is required.</p></div><div><h3>No secrets</h3><p>No API keys, tokens or paid provider credentials are bundled into the site.</p></div><div><h3>Open data</h3><p>Source directories and optional datasets can live in the repository and be version-controlled.</p></div><div><h3>User controlled</h3><p>Search values stay in the browser unless the user deliberately opens an external search or removal page.</p></div></div></section>
-</main>
-<footer class="wrap footer"><span>DeleteMe · open-source privacy tooling</span><span>No paid API dependency</span></footer>
-<script src="app.js"></script>
-</body></html>
+<section class="wrap section" id="results" hidden><div class="sectionhead"><div><span class="kicker">REMOVAL ENGINE</span><h2>Removal progress</h2></div><button class="ghost" id="clearBtn">Clear</button></div><div class="resultgrid" id="resultGrid"></div></section>
+<section class="wrap section" id="coverage"><span class="kicker">COVERAGE</span><h2>One workflow, hundreds of brokers.</h2><p class="muted">DeleteMe uses a free public broker registry and a local Python/Playwright execution engine. Email-based brokers can be submitted through your own SMTP account; web forms are automated when their fields can be safely identified.</p><div class="cards"><article><b>01</b><h3>500+ registry</h3><p>Start with the public 499-broker registry and extend it with new adapters.</p></article><article><b>02</b><h3>Bulk removal</h3><p>One action starts the complete broker queue instead of opening search engines.</p></article><article><b>03</b><h3>Local execution</h3><p>Identity data stays on the user's machine and is sent directly to the relevant broker.</p></article><article><b>04</b><h3>Browser automation</h3><p>Playwright handles compatible opt-out forms without requiring a paid API.</p></article><article><b>05</b><h3>Email requests</h3><p>Use your own SMTP credentials to submit deletion requests where a broker accepts email.</p></article><article><b>06</b><h3>Verification</h3><p>CAPTCHAs, phone checks and identity verification remain visible and user-controlled.</p></article></div></section>
+<section class="wrap section" id="privacy"><span class="kicker">PRIVACY MODEL</span><h2>No DeleteMe server.</h2><div class="privacygrid"><div><h3>Local profile</h3><p>Your identity is processed by the local engine.</p></div><div><h3>No paid APIs</h3><p>The broker registry and automation stack use free/open-source components.</p></div><div><h3>No tracking</h3><p>No analytics or third-party tracking scripts are required.</p></div><div><h3>Human control</h3><p>Security checks and legal identity verification are never guessed or bypassed.</p></div></div></section>
+</main><footer class="wrap footer"><span>DeleteMe · open-source privacy tooling</span><span>Local execution · no paid API dependency</span></footer>
+<script src="app.js"></script></body></html>
