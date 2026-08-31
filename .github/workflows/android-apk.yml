@@ -39,25 +39,30 @@ jobs:
 
       - name: Validate Android project
         working-directory: android
-        run: gradle :app:check --no-daemon
+        run: gradle :app:check --no-daemon --warning-mode=all
 
       - name: Build latest debug APK
         working-directory: android
-        run: gradle :app:assembleDebug --no-daemon
+        run: gradle :app:assembleDebug --no-daemon --warning-mode=all
 
       - name: Verify APK output
         run: |
-          test -s android/app/build/outputs/apk/debug/app-debug.apk
-          echo "APK size: $(du -h android/app/build/outputs/apk/debug/app-debug.apk | cut -f1)"
+          set -euo pipefail
+          APK="android/app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$APK"
+          echo "APK size: $(du -h "$APK" | cut -f1)"
+          sha256sum "$APK"
 
       - name: Replace permanent APK in repository
         run: |
+          set -euo pipefail
           mkdir -p downloads
           cp android/app/build/outputs/apk/debug/app-debug.apk downloads/DeleteMe.apk
           sha256sum downloads/DeleteMe.apk > downloads/DeleteMe.apk.sha256
 
       - name: Publish APK and checksum to main
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add downloads/DeleteMe.apk downloads/DeleteMe.apk.sha256
@@ -69,18 +74,18 @@ jobs:
           git push origin main
 
       - name: Remove previous APK artifact
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const artifacts = await github.paginate(
               github.rest.actions.listArtifactsForRepo,
               { owner: context.repo.owner, repo: context.repo.repo, per_page: 100 }
             );
-            for (const a of artifacts.filter(x => x.name === 'DeleteMe-debug-apk')) {
+            for (const artifact of artifacts.filter(item => item.name === 'DeleteMe-debug-apk')) {
               await github.rest.actions.deleteArtifact({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                artifact_id: a.id
+                artifact_id: artifact.id
               });
             }
 
