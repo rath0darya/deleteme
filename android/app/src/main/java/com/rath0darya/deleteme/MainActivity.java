@@ -1,6 +1,7 @@
 package com.rath0darya.deleteme;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         setContentView(R.layout.activity_main);
         MaterialToolbar bar = findViewById(R.id.topAppBar);
-        bar.setNavigationIcon(null);
+        bar.setTitle("DeleteMe");
         container = findViewById(R.id.screenContainer);
         nav = findViewById(R.id.bottomNavigation);
         nav.setOnItemSelectedListener(item -> {
@@ -44,12 +45,10 @@ public class MainActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_settings) { showSettings(); return true; }
             return false;
         });
-        showScan();
+        nav.setSelectedItemId(R.id.nav_scan);
     }
 
     private void showScan() {
-        nav.setSelectedItemId(R.id.nav_scan);
-        getSupportActionBar();
         View v = getLayoutInflater().inflate(R.layout.screen_scan, container, false);
         container.removeAllViews(); container.addView(v);
         input = v.findViewById(R.id.identifierInput);
@@ -66,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
         inputLayout.setError(null); button.setEnabled(false); button.setText("Checking…");
         executor.execute(() -> {
             try {
-                ArrayList<String> found = breachScan(email);
-                matches = found;
+                matches = breachScan(email);
                 runOnUiThread(() -> { button.setEnabled(true); button.setText("Find my data"); showResults(); });
             } catch (Exception e) {
                 runOnUiThread(() -> { button.setEnabled(true); button.setText("Try again"); Toast.makeText(this, "Could not complete the check.", Toast.LENGTH_LONG).show(); });
@@ -76,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showResults() {
-        nav.setSelectedItemId(R.id.nav_results);
         View v = getLayoutInflater().inflate(R.layout.screen_results, container, false);
         container.removeAllViews(); container.addView(v);
         TextView title = v.findViewById(R.id.resultsTitle), sub = v.findViewById(R.id.resultsSubtitle);
@@ -109,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showDirectory() {
-        nav.setSelectedItemId(R.id.nav_results);
         ScrollView scroll = new ScrollView(this); LinearLayout root = new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL); root.setPadding(20,20,20,24); scroll.addView(root);
         TextView k = new TextView(this); k.setText("REMOVAL DIRECTORY"); k.setTextSize(12); k.setTextColor(getColor(R.color.primary)); k.setTypeface(null,1); root.addView(k);
         TextView h = new TextView(this); h.setText("Choose what to remove"); h.setTextSize(28); h.setTextColor(getColor(R.color.text_primary)); h.setTypeface(null,1); h.setPadding(0,8,0,5); root.addView(h);
@@ -120,8 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addBroker(LinearLayout root,String name,String url){ MaterialCardView c=new MaterialCardView(this); c.setRadius(18); c.setCardElevation(0); c.setStrokeWidth(1); c.setStrokeColor(getColor(R.color.outline)); LinearLayout b=new LinearLayout(this); b.setOrientation(LinearLayout.VERTICAL); b.setPadding(17,15,17,15); TextView n=new TextView(this);n.setText(name);n.setTextSize(16);n.setTextColor(getColor(R.color.text_primary));n.setTypeface(null,1);b.addView(n);MaterialButton x=new MaterialButton(this);x.setText("Open official removal option");x.setAllCaps(false);x.setOnClickListener(v->{try{startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));}catch(Exception ignored){}});b.addView(x);c.addView(b);LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2);p.bottomMargin=10;root.addView(c,p); }
 
-    private void showSettings(){ nav.setSelectedItemId(R.id.nav_settings); View v=getLayoutInflater().inflate(R.layout.screen_settings,container,false);container.removeAllViews();container.addView(v); }
-
+    private void showSettings(){ View v=getLayoutInflater().inflate(R.layout.screen_settings,container,false);container.removeAllViews();container.addView(v); }
     private ArrayList<String> breachScan(String email)throws Exception{ArrayList<String> out=new ArrayList<>();String body=get(XON+URLEncoder.encode(email,"UTF-8")+"?details=true");JSONObject o=new JSONObject(body);JSONArray a=o.optJSONArray("breaches");if(a==null)a=o.optJSONArray("data");if(a==null)return out;for(int i=0;i<a.length();i++){Object x=a.get(i);String n=x instanceof JSONObject?((JSONObject)x).optString("name",((JSONObject)x).optString("title","Breach")):String.valueOf(x);if(!n.isEmpty()&&!out.contains(n))out.add(n);}return out;}
     private JSONArray brokerArray()throws Exception{Object r=new JSONTokener(get(BROKERS)).nextValue();if(r instanceof JSONArray)return (JSONArray)r;if(r instanceof JSONObject){JSONObject o=(JSONObject)r;JSONArray a=o.optJSONArray("data");if(a!=null)return a;return o.optJSONArray("brokers");}return new JSONArray();}
     private static String first(JSONObject o,String...keys){for(String k:keys){String v=o.optString(k,"");if(!v.trim().isEmpty())return v.trim();}return "";}
