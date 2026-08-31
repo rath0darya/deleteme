@@ -4,46 +4,35 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="DeleteMe — local-first personal data removal automation.">
 <title>DeleteMe — Personal Data Removal</title>
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <header class="nav wrap"><a class="brand" href="#top">delete<span>me</span></a><nav><a href="#remove">Remove</a><a href="#coverage">Coverage</a><a href="#privacy">Privacy</a></nav><a class="ghost" href="https://github.com/rath0darya/deleteme">GitHub</a></header>
 <main id="top">
 <section class="hero wrap">
 <div class="eyebrow">LOCAL-FIRST · AUTOMATED REMOVAL · OPEN SOURCE</div>
-<h1>Remove your data<br><em>without the Google dance.</em></h1>
-<p class="lead">Build one private profile, connect to your local removal engine, and work through supported data brokers from a single control panel.</p>
-
+<h1>Remove your data<br><em>from one place.</em></h1>
+<p class="lead">Start with one identifier. DeleteMe uses only the information needed to match supported removal requests. Additional details are requested only when a service requires them.</p>
 <div class="enginebar" id="engineBar"><span class="dot"></span><span id="engineText">Checking local removal engine…</span><span class="engine-url">127.0.0.1:8765</span></div>
-
 <section class="panel" id="remove">
-<div class="panelhead"><div><span class="kicker">PRIVATE PROFILE</span><h2>Who are we removing?</h2></div><span class="privacy-pill">Processed locally</span></div>
-<div class="profilegrid">
+<div class="panelhead"><div><span class="kicker">MINIMAL PROFILE</span><h2>What should we remove?</h2></div><span class="privacy-pill">Local only</span></div>
+<div class="identifier"><label>Primary identifier<input id="identifier" autocomplete="off" placeholder="Email, phone number, or username" autofocus></label></div>
+<details class="optional"><summary>Additional details <span>optional</span></summary><p>Only add these if a broker needs them to identify your record.</p><div class="profilegrid">
 <label>First name<input id="firstName" autocomplete="given-name" placeholder="First name"></label>
 <label>Last name<input id="lastName" autocomplete="family-name" placeholder="Last name"></label>
-<label>Email<input id="email" type="email" autocomplete="email" placeholder="you@example.com"></label>
-<label>Phone<input id="phone" autocomplete="tel" placeholder="Phone number"></label>
 <label class="wide">Street address<input id="address" autocomplete="street-address" placeholder="Street address"></label>
 <label>City<input id="city" autocomplete="address-level2" placeholder="City"></label>
 <label>State / Province<input id="state" autocomplete="address-level1" placeholder="State / Province"></label>
 <label>Postal code<input id="postalCode" autocomplete="postal-code" placeholder="Postal code"></label>
 <label>Country<input id="country" autocomplete="country-name" value="India" placeholder="Country"></label>
-<label class="wide">Known aliases <input id="aliases" placeholder="Optional names, comma separated"></label>
-</div>
-<div class="actions"><button class="primary" id="removeBtn">Remove my data <span>→</span></button><button class="ghost" id="resetBtn">Reset profile</button></div>
-<p class="micro">Your profile is sent only to the local engine. It is never uploaded to DeleteMe.</p>
+<label class="wide">Known aliases<input id="aliases" placeholder="Optional names, comma separated"></label>
+</div></details>
+<div class="actions"><button class="primary" id="removeBtn">Remove my data <span>→</span></button><button class="ghost" id="resetBtn">Clear</button></div>
+<p class="micro">Nothing is stored by the website. Your identifier is sent only to your local removal engine.</p>
 </section>
 </section>
-
-<section class="wrap section" id="results" hidden>
-<div class="sectionhead"><div><span class="kicker">REMOVAL RUN</span><h2 id="runTitle">Removal progress</h2></div><div class="runstate" id="runState">Idle</div></div>
-<div class="stats"><div><b id="totalStat">0</b><span>brokers</span></div><div><b id="submittedStat">0</b><span>submitted</span></div><div><b id="manualStat">0</b><span>needs review</span></div><div><b id="failedStat">0</b><span>failed</span></div></div>
-<div class="progress"><div id="progressBar"></div></div>
-<div class="resultgrid" id="resultGrid"></div>
-</section>
-
-<section class="wrap section" id="coverage"><span class="kicker">COVERAGE</span><h2>One queue, supported brokers.</h2><p class="muted">The local engine loads the broker registry, opens compatible opt-out forms with Playwright, and keeps request status locally. CAPTCHA, phone checks and identity verification stay under human control.</p><div class="cards"><article><b>01</b><h3 id="brokerCount">Registry</h3><p>Broker count is read directly from your local engine.</p></article><article><b>02</b><h3>Bulk removal</h3><p>Start one run instead of opening dozens of search results.</p></article><article><b>03</b><h3>Local execution</h3><p>Your profile stays on your machine and goes directly to the relevant broker.</p></article><article><b>04</b><h3>Browser automation</h3><p>Compatible opt-out forms are filled and submitted automatically.</p></article><article><b>05</b><h3>Email requests</h3><p>Your own SMTP account can handle brokers that accept deletion by email.</p></article><article><b>06</b><h3>Human verification</h3><p>CAPTCHAs and sensitive verification steps are never bypassed.</p></article></div></section>
-
-<section class="wrap section" id="privacy"><span class="kicker">PRIVACY MODEL</span><h2>No central DeleteMe server.</h2><div class="privacygrid"><div><h3>Local profile</h3><p>Identity fields are processed by the local engine.</p></div><div><h3>No paid APIs</h3><p>The workflow uses the open broker registry and browser automation.</p></div><div><h3>Local status</h3><p>Removal progress and request history are stored locally.</p></div><div><h3>Human control</h3><p>Security checks and legal identity verification are never guessed or bypassed.</p></div></div></section>
-</main><footer class="wrap footer"><span>DeleteMe · open-source privacy tooling</span><span>Local engine · automated removal · no paid API</span></footer>
-<script src="app.js?v=3"></script></body></html>
+<section class="wrap section" id="results" hidden><div class="sectionhead"><div><span class="kicker">REMOVAL RUN</span><h2 id="runTitle">Removal progress</h2></div><div class="runstate" id="runState">Idle</div></div><div class="stats"><div><b id="totalStat">0</b><span>brokers</span></div><div><b id="submittedStat">0</b><span>submitted</span></div><div><b id="manualStat">0</b><span>needs review</span></div><div><b id="failedStat">0</b><span>failed</span></div></div><div class="progress"><div id="progressBar"></div></div><div class="resultgrid" id="resultGrid"></div></section>
+<section class="wrap section" id="coverage"><span class="kicker">COVERAGE</span><h2>One queue, supported brokers.</h2><p class="muted">The local engine loads the broker registry and processes compatible removal forms without a paid API.</p></section>
+<section class="wrap section" id="privacy"><span class="kicker">PRIVACY MODEL</span><h2>No central DeleteMe server.</h2><div class="privacygrid"><div><h3>Minimal collection</h3><p>Start with one identifier. Extra profile data is optional.</p></div><div><h3>Local processing</h3><p>The profile is sent only to your local engine.</p></div><div><h3>No paid APIs</h3><p>The workflow uses open-source components.</p></div><div><h3>Human control</h3><p>CAPTCHAs and sensitive verification are never bypassed.</p></div></div></section>
+</main><footer class="wrap footer"><span>DeleteMe · open-source privacy tooling</span><span>Local engine · no paid API</span></footer>
+<script src="app.js?v=4"></script></body></html>
