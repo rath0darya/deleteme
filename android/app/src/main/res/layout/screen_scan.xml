@@ -1,41 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:background="@color/background">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PRIVACY CHECK" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary" android:letterSpacing="0.10" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Find where your data is exposed" android:textSize="30sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="8dp" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Choose what you want to search. DeleteMe uses the appropriate public source for each identifier type." android:textSize="15sp" android:textColor="@color/text_secondary" android:layout_marginTop="8dp" android:layout_marginBottom="18dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PRIVACY WORKSPACE" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/primary" android:letterSpacing="0.10" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Protect your digital footprint" android:textSize="28sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="5dp" />
+            </LinearLayout>
+            <TextView android:id="@+id/locationBadge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📍 Detecting" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary_dark" android:background="@color/primary_container" android:paddingLeft="12dp" android:paddingRight="12dp" android:paddingTop="8dp" android:paddingBottom="8dp" />
+        </LinearLayout>
 
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="22dp" app:cardElevation="1dp" app:strokeWidth="1dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@android:color/white">
+        <TextView android:id="@+id/locationStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your region helps us show relevant privacy and removal routes." android:textSize="13sp" android:textColor="@color/text_secondary" android:layout_marginTop="7dp" android:layout_marginBottom="15dp" />
+
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="26dp" app:cardElevation="2dp" app:strokeWidth="1dp" app:strokeColor="@color/outline" app:cardBackgroundColor="@android:color/white">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SEARCH TYPE" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary" android:letterSpacing="0.08" />
-                <com.google.android.material.chip.ChipGroup android:id="@+id/searchTypeGroup" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" app:singleSelection="true" app:selectionRequired="true">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NEW PRIVACY CHECK" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/primary" android:letterSpacing="0.08" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Where is my data?" android:textSize="23sp" android:textStyle="bold" android:textColor="@color/text_primary" android:layout_marginTop="5dp" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Search supported public sources, review exactly what was found, then decide what you want removed." android:textSize="14sp" android:textColor="@color/text_secondary" android:layout_marginTop="5dp" android:layout_marginBottom="14dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SEARCH FOR" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary" android:letterSpacing="0.08" />
+                <com.google.android.material.chip.ChipGroup android:id="@+id/searchTypeGroup" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="7dp" app:singleSelection="true" app:selectionRequired="true">
                     <com.google.android.material.chip.Chip android:id="@+id/typeEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Email" android:checked="true" />
                     <com.google.android.material.chip.Chip android:id="@+id/typeMobile" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mobile" />
                     <com.google.android.material.chip.Chip android:id="@+id/typeUsername" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Username" />
                     <com.google.android.material.chip.Chip android:id="@+id/typeName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Name" />
                 </com.google.android.material.chip.ChipGroup>
-                <com.google.android.material.textfield.TextInputLayout android:id="@+id/identifierLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" style="@style/Widget.DeleteMe.TextInputLayout">
+                <com.google.android.material.textfield.TextInputLayout android:id="@+id/identifierLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="7dp" style="@style/Widget.DeleteMe.TextInputLayout">
                     <com.google.android.material.textfield.TextInputEditText android:id="@+id/identifierInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Email address" android:inputType="textEmailAddress" android:singleLine="true" android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.button.MaterialButton android:id="@+id/findButton" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="12dp" android:text="Find my data  →" android:textAllCaps="false" android:textSize="16sp" style="@style/Widget.DeleteMe.PrimaryButton" />
-                <TextView android:id="@+id/searchHelp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Email checks known breach intelligence." android:textSize="11sp" android:textColor="@color/text_secondary" android:layout_marginTop="10dp" />
+                <TextView android:id="@+id/searchHelp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Email checks known breach intelligence." android:textSize="11sp" android:textColor="@color/text_secondary" android:layout_marginTop="9dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="14dp">
-            <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" app:cardCornerRadius="16dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/primary_container">
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="✓  FREE SOURCES" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/primary_dark" android:padding="15dp" />
+            <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/primary_container">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="15dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="✓" android:textSize="20sp" android:textColor="@color/primary" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Verified sources" android:textSize="12sp" android:textColor="@color/text_primary" android:textStyle="bold" android:layout_marginTop="3dp" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
             <Space android:layout_width="10dp" android:layout_height="1dp" />
-            <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" app:cardCornerRadius="16dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/india_container">
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🇮🇳  INDIA ROUTES" android:textSize="12sp" android:textStyle="bold" android:textColor="@color/india" android:padding="15dp" />
+            <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/india_container">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="15dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🌐" android:textSize="20sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Regional routes" android:textSize="12sp" android:textColor="@color/text_primary" android:textStyle="bold" android:layout_marginTop="3dp" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" app:cardCornerRadius="18dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/surface">
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" app:cardCornerRadius="20dp" app:cardElevation="0dp" app:cardBackgroundColor="@color/surface">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="17dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Search coverage" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/text_primary" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Email  •  breach intelligence\nMobile  •  public exposure and removal routes\nUsername  •  public profile checks\nName  •  public profile / directory checks" android:textSize="14sp" android:textColor="@color/text_secondary" android:lineSpacingExtra="5dp" android:layout_marginTop="7dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="How DeleteMe works" android:textSize="17sp" android:textStyle="bold" android:textColor="@color/text_primary" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="01  Search supported sources\n02  Review where your data was found\n03  Choose whether to remove it\n04  Use automated removal when available, otherwise follow the official provider guide" android:textSize="14sp" android:textColor="@color/text_secondary" android:lineSpacingExtra="6dp" android:layout_marginTop="7dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
