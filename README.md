@@ -1,55 +1,52 @@
 # DeleteMe
 
-Open-source digital footprint removal workspace.
+Open-source, static personal-data exposure and removal toolkit.
 
-## What it is
+## Zero paid-API dependency
 
-DeleteMe is designed around a **discover → request → verify** workflow for personal-data exposure. It can be extended with source adapters for data brokers, search engines, social platforms, public web pages, developer platforms and breach-intelligence providers.
+DeleteMe is designed to run entirely as a static GitHub Pages site. It does not require a backend, database, API key, subscription, or paid API.
 
-The current UI is an MVP shell and includes a server-side Have I Been Pwned adapter when `HIBP_API_KEY` is configured.
+The browser generates source-specific searches and removal workflows. Users choose what external sites to open and what information to submit. The project can also ship optional open datasets in the repository without making a third-party API a requirement.
 
-## Important limitation
+## Features
 
-There is no universal API that can delete somebody's data from "the internet". A breach record can be detected, but the underlying breached database may be outside the user's control and may have been copied repeatedly. Removal therefore needs to distinguish between:
+- Email, phone, username and name search modes
+- Exact-match public-web search generation
+- Google, Bing and DuckDuckGo search links
+- Public GitHub code search
+- Social-platform exposure search helpers
+- Data-broker removal workflow
+- Public-document exposure workflow
+- Breach-exposure workflow designed for local/open datasets
+- Discover → Request → Verify lifecycle
+- No application server
+- No API credentials
+- No paid provider dependency
+- Mobile responsive
 
-- **Discoverable**: evidence was found.
-- **Removable**: a controller/host provides a valid deletion or takedown path.
-- **Requested**: a request was submitted.
-- **Verified removed**: a later check confirms the exposure is gone.
-- **Reappeared**: the data returned after a successful removal.
+## GitHub Pages
 
-## Local development
+The site is deployed by `.github/workflows/pages.yml` using GitHub Pages. GitHub Pages can publish static HTML, CSS and JavaScript directly from a repository.
 
-```bash
-npm install
-cp .env.example .env.local
-npm run dev
-```
+## Privacy model
 
-Set `HIBP_API_KEY` in `.env.local` to enable the breach lookup endpoint. Keep provider credentials server-side.
+The scan value is processed in the browser. DeleteMe does not operate a central server that receives the user's identifier.
 
-## Planned source adapter model
+External searches only happen when the user deliberately opens the generated search link. The project does not claim that it can erase every copy of data from the internet. A removal result must be verified at the original source and can later reappear.
 
-Each source adapter should expose:
+## Open-source extension model
 
-```ts
-type SourceAdapter = {
-  id: string;
-  name: string;
-  capabilities: Array<'discover' | 'requestRemoval' | 'verifyRemoval'>;
-  discover(input: NormalizedIdentity): Promise<Finding[]>;
-  requestRemoval?(finding: Finding): Promise<RemovalRequest>;
-  verifyRemoval?(finding: Finding): Promise<VerificationResult>;
-};
-```
+New source coverage should be added as repository data/configuration rather than requiring a paid API. Each source can define:
 
-This keeps provider-specific behaviour isolated instead of pretending every site supports the same deletion mechanism.
+- discovery/search URL
+- official removal URL
+- supported identifier types
+- request instructions
+- verification method
+- jurisdiction or eligibility notes
 
-## Privacy principles
+Optional breach datasets can be imported and indexed locally. The application should never require a commercial breach API to function.
 
-- Minimise identity data collected.
-- Do not log raw scan identifiers.
-- Encrypt stored removal evidence in production.
-- Use provider APIs server-side when credentials are required.
-- Give users explicit control over deletion of their DeleteMe workspace.
-- Never claim a breach has been deleted when only the notification has been processed.
+## License
+
+Choose and add an OSI-approved open-source license before publishing a stable release.
