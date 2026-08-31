@@ -44,7 +44,7 @@ public class LocationPermissionCard extends MaterialCardView {
  private boolean hasCoarse(){return ContextCompat.checkSelfPermission(activity,Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED&&!hasFine();}
  private boolean isPermanentlyDenied(){return !hasFine()&&!hasCoarse()&&!ActivityCompat.shouldShowRequestPermissionRationale(activity,Manifest.permission.ACCESS_FINE_LOCATION)&&!ActivityCompat.shouldShowRequestPermissionRationale(activity,Manifest.permission.ACCESS_COARSE_LOCATION);}
  private void openSettings(){Intent i=new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);i.setData(Uri.parse("package:"+activity.getPackageName()));activity.startActivity(i);postDelayed(this::refresh,500);}
- private TextView text(String s,int z,int c,boolean b){TextView v=new TextView(getContext());v.setText(s);v.setTextSize(z);v.setTextColor(c);v.setGravity(Gravity.START);v.setTypeface(android.graphics.Typeface.DEFAULT,b?1:0);return v;}
+ private TextView text(String s,int z,int c,boolean b){TextView v=new TextView(getContext());v.setText(s);v.setTextSize(z);v.setTextColor(c);v.setGravity(Gravity.START);v.setTypeface(android.graphics.Typeface.DEFAULT,b?android.graphics.Typeface.BOLD:android.graphics.Typeface.NORMAL);return v;}
  private LinearLayout.LayoutParams lp(int w,int l,int t,int b){LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(w==0?-1:w,-2);p.setMargins(l,t,0,b);return p;}
  private int dp(int v){return Math.round(v*getResources().getDisplayMetrics().density);}
 }
