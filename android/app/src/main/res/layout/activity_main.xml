@@ -31,7 +31,6 @@
         android:background="@color/surface"
         app:itemIconTint="@color/primary"
         app:itemTextColor="@color/text_primary"
-        app:itemActiveIndicatorStyle="@style/Widget.Material3.BottomNavigationView.ActiveIndicator"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled" />
 </LinearLayout>
