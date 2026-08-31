@@ -1,135 +1,105 @@
-const state = { type: 'email', value: '' };
-const input = document.querySelector('#identity');
-const results = document.querySelector('#results');
-const grid = document.querySelector('#resultGrid');
-const scanBtn = document.querySelector('#scanBtn');
-const placeholders = {
-  email: 'Enter an email address',
-  phone: 'Enter a phone number',
-  username: 'Enter a username',
-  name: 'Enter a full name'
+const API = 'http://127.0.0.1:8765';
+const $ = (id) => document.getElementById(id);
+let pollTimer = null;
+
+const fields = {
+  first_name: 'firstName', last_name: 'lastName', email: 'email', phone: 'phone',
+  address: 'address', city: 'city', state: 'state', postal_code: 'postalCode', country: 'country'
 };
 
-document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
-  document.querySelector('.tab.active')?.classList.remove('active');
-  btn.classList.add('active');
-  state.type = btn.dataset.type;
-  input.placeholder = placeholders[state.type];
-  input.value = '';
-  input.focus();
-}));
-
-const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[c]));
-const encoded = value => encodeURIComponent(value);
-const exact = value => encodeURIComponent(`"${value.replaceAll('"', '')}"`);
-
-function externalLink(url, label) {
-  const a = document.createElement('a');
-  a.href = url;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer nofollow';
-  a.textContent = label;
-  return a;
+function profile() {
+  const p = {};
+  for (const [key, id] of Object.entries(fields)) p[key] = $(id).value.trim();
+  p.aliases = $('aliases').value.split(',').map(x => x.trim()).filter(Boolean);
+  return p;
 }
 
-function sourceData(value) {
-  const v = encoded(value);
-  const x = exact(value);
-  return [
-    { cat:'SEARCH', name:'Google', detail:'Exact public-web exposure search', url:`https://www.google.com/search?q=${x}`, action:'Search manually' },
-    { cat:'SEARCH', name:'Bing', detail:'Exact public-web exposure search', url:`https://www.bing.com/search?q=${x}`, action:'Search manually' },
-    { cat:'SEARCH', name:'DuckDuckGo', detail:'Exact public-web exposure search', url:`https://duckduckgo.com/?q=${x}`, action:'Search manually' },
-    { cat:'CODE', name:'GitHub', detail:'Public repositories, issues and code', url:`https://github.com/search?q=${v}&type=code`, action:'Search manually' },
-    { cat:'SOCIAL', name:'LinkedIn', detail:'Public profile and indexed exposure', url:`https://www.google.com/search?q=${encoded('site:linkedin.com '+`"${value.replaceAll('"','')}"`)}`, action:'Search manually' },
-    { cat:'SOCIAL', name:'Facebook', detail:'Public profile and page exposure', url:`https://www.google.com/search?q=${encoded('site:facebook.com '+`"${value.replaceAll('"','')}"`)}`, action:'Search manually' },
-    { cat:'SOCIAL', name:'Instagram', detail:'Public profile/indexed exposure', url:`https://www.google.com/search?q=${encoded('site:instagram.com '+`"${value.replaceAll('"','')}"`)}`, action:'Search manually' },
-    { cat:'SOCIAL', name:'Reddit', detail:'Public posts, comments and profiles', url:`https://www.google.com/search?q=${encoded('site:reddit.com '+`"${value.replaceAll('"','')}"`)}`, action:'Search manually' },
-    { cat:'DATA BROKER', name:'People-search sites', detail:'Search for profiles and opt-out paths', url:`https://www.google.com/search?q=${encoded('"'+value.replaceAll('"','')+'" '+ 'people search opt out')}`, action:'Find removal path' },
-    { cat:'PUBLIC WEB', name:'PDF & documents', detail:'Indexed documents containing the identifier', url:`https://www.google.com/search?q=${encoded('filetype:pdf '+`"${value.replaceAll('"','')}"`)}`, action:'Search manually' },
-    { cat:'PUBLIC WEB', name:'Paste / leak references', detail:'Publicly indexed references only', url:`https://www.google.com/search?q=${encoded('"'+value.replaceAll('"','')+'" paste leak')}`, action:'Review carefully' }
-  ];
+function setEngine(ok, text) {
+  $('engineBar').classList.toggle('online', ok);
+  $('engineText').textContent = text;
 }
 
-const removalDirectory = [
-  { name:'Google', type:'Search removal', url:'https://support.google.com/websearch/troubleshooter/9685456' },
-  { name:'Bing', type:'Search removal', url:'https://www.microsoft.com/en-us/concern/bing' },
-  { name:'GitHub', type:'Public content removal', url:'https://support.github.com/contact/dmca-takedown' },
-  { name:'LinkedIn', type:'Account/privacy controls', url:'https://www.linkedin.com/help/linkedin' },
-  { name:'Facebook', type:'Privacy / account controls', url:'https://www.facebook.com/help/' },
-  { name:'Instagram', type:'Privacy / account controls', url:'https://help.instagram.com/' },
-  { name:'Reddit', type:'Privacy / account controls', url:'https://support.reddithelp.com/' },
-  { name:'California residents', type:'Data-broker opt-out directory', url:'https://privacy.ca.gov/submit-a-privacy-request/' },
-  { name:'FTC', type:'Identity-theft / privacy guidance', url:'https://consumer.ftc.gov/topics/privacy-identity-online-security' }
-];
+async function api(path, options = {}) {
+  const r = await fetch(API + path, options);
+  if (!r.ok) throw new Error(await r.text() || `HTTP ${r.status}`);
+  return r.json();
+}
 
-function makeCard(item) {
+async function checkEngine() {
+  try {
+    const health = await api('/api/health');
+    setEngine(true, 'Local removal engine connected');
+    const b = await api('/api/brokers');
+    $('brokerCount').textContent = `${b.count.toLocaleString('en-IN')} brokers`;
+    return true;
+  } catch (e) {
+    setEngine(false, 'Local engine offline — start engine/server.py');
+    $('brokerCount').textContent = 'Engine offline';
+    return false;
+  }
+}
+
+function validProfile(p) {
+  if (!p.first_name || !p.last_name) return 'First name and last name are required.';
+  if (!p.email && !p.phone) return 'Add at least an email or phone number.';
+  return '';
+}
+
+function statusCard(item) {
   const el = document.createElement('article');
-  el.className = 'result';
+  el.className = `result status-${item.status}`;
   const badge = document.createElement('span');
-  badge.className = 'badge';
-  badge.textContent = item.cat || 'REMOVAL';
-  const h = document.createElement('h3'); h.textContent = item.name;
-  const p = document.createElement('p'); p.textContent = item.detail || item.type;
-  el.append(badge, h, p, externalLink(item.url, item.action || 'Open official removal route ↗'));
+  badge.className = 'badge'; badge.textContent = item.status.toUpperCase();
+  const h = document.createElement('h3'); h.textContent = item.company;
+  const p = document.createElement('p'); p.textContent = item.detail || item.domain || '';
+  el.append(badge, h, p);
   return el;
 }
 
-function render(value) {
+function renderStatus(s) {
+  $('results').hidden = false;
+  $('totalStat').textContent = (s.total || 0).toLocaleString('en-IN');
+  $('submittedStat').textContent = (s.submitted || 0).toLocaleString('en-IN');
+  $('manualStat').textContent = (s.manual || 0).toLocaleString('en-IN');
+  $('failedStat').textContent = (s.failed || 0).toLocaleString('en-IN');
+  const pct = s.total ? Math.round((s.completed / s.total) * 100) : 0;
+  $('progressBar').style.width = `${pct}%`;
+  $('runState').textContent = s.running ? `Running · ${pct}%` : (s.completed ? 'Completed' : 'Idle');
+  $('runTitle').textContent = s.running ? 'Removing your data…' : 'Removal progress';
+  const grid = $('resultGrid');
   grid.replaceChildren();
-  const searches = sourceData(value);
-  searches.forEach(item => grid.appendChild(makeCard(item)));
-
-  const plan = document.createElement('article');
-  plan.className = 'result result-wide';
-  plan.innerHTML = `<span class="badge">REMOVAL PLAN</span><h3>One scan → one removal queue</h3><p>Use the generated findings above, then work through the official removal routes below. DeleteMe does not send your identifier automatically and does not claim that a third-party breach database can be erased by a browser.</p>`;
-  const list = document.createElement('div');
-  list.className = 'removal-list';
-  removalDirectory.forEach(item => {
-    const row = document.createElement('div');
-    row.className = 'removal-row';
-    const text = document.createElement('span');
-    text.innerHTML = `<strong>${esc(item.name)}</strong><small>${esc(item.type)}</small>`;
-    row.append(text, externalLink(item.url, 'Open official route ↗'));
-    list.appendChild(row);
-  });
-  plan.appendChild(list);
-  grid.appendChild(plan);
-
-  const warning = document.createElement('div');
-  warning.className = 'note';
-  warning.textContent = 'Important: “all data” means every supported exposure surface in this open-source workflow, not a guaranteed deletion from every system on the internet. Breached copies, private databases and mirrors require action by the relevant controller, host or service. Re-scan after each request to verify removal.';
-  grid.appendChild(warning);
-
-  results.hidden = false;
-  results.scrollIntoView({ behavior:'smooth', block:'start' });
+  (s.items || []).slice().reverse().forEach(item => grid.appendChild(statusCard(item)));
+  if (s.running) pollTimer = setTimeout(refreshStatus, 1500);
 }
 
-scanBtn.addEventListener('click', () => {
-  const value = input.value.trim();
-  if (!value) { input.focus(); return; }
-  state.value = value;
-  scanBtn.disabled = true;
-  scanBtn.textContent = 'Building removal plan…';
-  setTimeout(() => {
-    scanBtn.disabled = false;
-    scanBtn.innerHTML = 'Scan exposure <span>↗</span>';
-    render(value);
-  }, 250);
+async function refreshStatus() {
+  try { renderStatus(await api('/api/status')); }
+  catch { setEngine(false, 'Local engine connection lost'); }
+}
+
+$('removeBtn').addEventListener('click', async () => {
+  const p = profile();
+  const error = validProfile(p);
+  if (error) { alert(error); return; }
+  if (!(await checkEngine())) { alert('Start the local engine first: python engine/server.py'); return; }
+  $('removeBtn').disabled = true;
+  $('removeBtn').innerHTML = 'Starting removal…';
+  try {
+    await api('/api/remove-all', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({profile:p}) });
+    renderStatus({running:true,total:0,completed:0,submitted:0,manual:0,failed:0,items:[]});
+    await refreshStatus();
+  } catch (e) {
+    alert(`Could not start removal: ${e.message}`);
+  } finally {
+    $('removeBtn').disabled = false;
+    $('removeBtn').innerHTML = 'Remove my data <span>→</span>';
+  }
 });
 
-document.querySelector('#clearBtn').addEventListener('click', () => {
-  state.value = '';
-  input.value = '';
-  grid.replaceChildren();
-  results.hidden = true;
-  input.focus();
+$('resetBtn').addEventListener('click', () => {
+  for (const id of Object.values(fields)) $(id).value = '';
+  $('country').value = 'India'; $('aliases').value = '';
 });
 
-input.addEventListener('keydown', e => {
-  if (e.key === 'Enter') { e.preventDefault(); scanBtn.click(); }
-});
-
-window.addEventListener('pagehide', () => {
-  state.value = '';
-  input.value = '';
-});
+checkEngine();
+refreshStatus();
