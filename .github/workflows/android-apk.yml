@@ -35,6 +35,15 @@ jobs:
       - name: Integrate generated Android navigation
         run: python scripts/ensure_trai_navigation.py
 
+      - name: Integrate SIGIT username reconnaissance
+        run: python scripts/ensure_sigit_username.py
+
+      - name: Verify SIGIT integration is present
+        run: |
+          set -euo pipefail
+          test -s android/app/src/main/java/com/rath0darya/deleteme/SigitUserRecon.java
+          grep -q 'SigitUserRecon.scan' android/app/src/main/java/com/rath0darya/deleteme/MainActivity.java
+
       - name: Set up Java 17
         uses: actions/setup-java@v5
         with:
@@ -62,6 +71,13 @@ jobs:
           echo "APK size: $(du -h "$APK" | cut -f1)"
           sha256sum "$APK"
 
+      - name: Verify APK contains SIGIT integration
+        run: |
+          set -euo pipefail
+          APK="android/app/build/outputs/apk/debug/app-debug.apk"
+          unzip -l "$APK" | grep -q 'classes.dex'
+          echo "APK contains compiled Android classes."
+
       - name: Replace permanent APK in repository
         run: |
           set -euo pipefail
@@ -74,7 +90,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add android/app/src/main/java/com/rath0darya/deleteme/MainActivity.java downloads/DeleteMe.apk downloads/DeleteMe.apk.sha256
+          git add android/app/src/main/java/com/rath0darya/deleteme/MainActivity.java android/app/src/main/java/com/rath0darya/deleteme/SigitUserRecon.java scripts/ensure_sigit_username.py downloads/DeleteMe.apk downloads/DeleteMe.apk.sha256
           if git diff --cached --quiet; then
             echo "No generated source or APK changes to publish"
             exit 0
