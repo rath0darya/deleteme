@@ -12,3 +12,15 @@ elif old in s:
     print('SIGIT username reconnaissance integrated successfully.')
 else:
     raise SystemExit('Expected username implementation not found; refusing to modify source.')
+
+# Keep the Scan screen description aligned with the native SIGIT integration.
+old_help = 'Checks public GitHub and GitLab profiles. Matches are possible matches, not identity proof.'
+new_help = 'Checks the integrated SIGIT public username-recon source list. Matches are possible matches, not identity proof.'
+if old_help in s:
+    s=s.replace(old_help,new_help,1)
+    p.write_text(s,encoding='utf-8')
+    print('Username search help text updated for SIGIT.')
+elif new_help in s:
+    print('Username search help text already reflects SIGIT.')
+else:
+    raise SystemExit('Expected username help text not found; refusing to modify source.')
